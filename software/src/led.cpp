@@ -26,9 +26,9 @@ void Led::turn_off_led() {
 // Toggle LED
  void Led::toggle_led() {
         turn_on_led();
-        sleep_ms(300);
+        sleep_ms(LED_SLEEP_TIME_mSec);
         turn_off_led();
-        sleep_ms(300);
+        sleep_ms(LED_SLEEP_TIME_mSec);
  }
 
 

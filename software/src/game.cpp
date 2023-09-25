@@ -1,14 +1,20 @@
+/**
+ * @file game.cpp
+ * @brief Provides fuctions for handling general game logic.
+ * @author Michael Granberry
+*/
+
 #include "inc/game.hpp"
 
-bool game_over = false;
-bool is_playing_led = true;
-bool is_guessing = false;
-uint8_t button_value = 0;
-std::vector<int> pattern;
-int pattern_index = 0;
-int high_scores[5] = {0, 0, 0, 0, 0,};
+Game::Game() {
+        game_over = false;
+        is_playing_led = true;
+        is_guessing = false;
+        button_value = 0;
+        pattern_index = 0;
+}
 
-int rand_gen() {
+int Game::rand_gen() {
 	// Providing a seed value
 	srand((unsigned) time(NULL));
 
@@ -24,7 +30,7 @@ int rand_gen() {
 }
 
 
-void play_led_pattern(Led *leds) {
+void Game::play_led_pattern(Led *leds) {
     pattern.push_back(rand_gen());
     print_score_board();
     // printf("size: %d\n", pattern.size());
@@ -37,7 +43,7 @@ void play_led_pattern(Led *leds) {
     toggle_is_playing_led();
 }
 
-void guessing_pattern() {
+void Game::guessing_pattern() {
     
     if (!get_is_playing_led()) {
         // printf("button_value: %d == %d :pattern[pattern_index]\n", button_value, pattern[pattern_index]);
@@ -57,7 +63,7 @@ void guessing_pattern() {
     }
 }
 
-void gameover() {
+void Game::gameover() {
     uint score = pattern.size()-1;
      if (compare_sore(high_scores, 5, score)) {
              insertionSort(high_scores, 5);
@@ -67,7 +73,7 @@ void gameover() {
     set_game_over(true);
 }
 
-void reset_game() {
+void Game::reset_game() {
     pattern.clear();
     pattern_index=0;
     sleep_ms(1000);
@@ -75,52 +81,51 @@ void reset_game() {
     set_game_over(false);
 }
 
-bool set_game_over(bool gameover) {
+bool Game::set_game_over(bool gameover) {
     game_over = gameover;
     return game_over;
 }
 
-bool get_game_over() {
+bool Game::get_game_over() {
     return game_over;
 }
 
 
-void toggle_is_playing_led() {
+void Game::toggle_is_playing_led() {
     is_playing_led = (is_playing_led == true) ? false : true;
 }
 
-bool get_is_playing_led() {
+bool Game::get_is_playing_led() {
     return is_playing_led;
 }
 
-void map_btn_to_led(uint8_t btn_to_led) {
+void Game::map_btn_to_led(uint8_t btn_to_led) {
     switch (btn_to_led)
     {
     case 0:
-        button_pressed(LED0_PIN);
-
+        button_pressed(Led::LED0_PIN);
         break;
 
     case 1:
-        button_pressed(LED1_PIN);
+        button_pressed(Led::LED1_PIN);
         break;
     case 2:
-        button_pressed(LED2_PIN);
+        button_pressed(Led::LED2_PIN);
         break;
     case 3:
-        button_pressed(LED3_PIN);
+        button_pressed(Led::LED3_PIN);
         break;
     default:
         break;
     }
 }
 
-void button_pressed(uint8_t btn_pressed) {
+void Game::button_pressed(uint8_t btn_pressed) {
     // printf("btn val: %d\n", btn_pressed);
     button_value = btn_pressed;
 }
 
-void print_score_board() {
+void Game::print_score_board() {
     printf("\033[H\033[J");
     printf("-------------------\n");
     printf("|   High Scores   |\n");
@@ -141,7 +146,7 @@ void print_score_board() {
 
 }
 
-bool compare_sore(int *arr, int size, int score) {
+bool Game::compare_sore(int *arr, int size, int score) {
     for (int i = 0; i < size; i++)
     {
         if (arr[i] < score) {
@@ -153,7 +158,7 @@ bool compare_sore(int *arr, int size, int score) {
 }
 
 // Descending Order
-void insertionSort(int *arr, int size) {
+void Game::insertionSort(int *arr, int size) {
     for (int i = 1; i < size; i++) {
         int key = arr[i];
         int j = i - 1;

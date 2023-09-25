@@ -1,6 +1,6 @@
 /** 
  * @file main.hpp
- * @brief 
+ * @brief Main file for Simon game
  * @author Michael Granberry
 */
 
@@ -10,39 +10,41 @@
 #include "hardware/gpio.h"
 #include "inc/game.hpp"
 
-uint db_counter = 0;
+Game game; // Global object. Is this bad? 
 
-PushButton btns[number_of_buttons] = {
-    PushButton(BTN0_PIN),
-    PushButton(BTN1_PIN),
-    PushButton(BTN2_PIN),
-    PushButton(BTN3_PIN),
-    PushButton(BTN4_PIN)
+uint PushButton::db_counter = 0;
+
+PushButton btns[PushButton::number_of_buttons] = {
+    PushButton(PushButton::BTN0_PIN),
+    PushButton(PushButton::BTN1_PIN),
+    PushButton(PushButton::BTN2_PIN),
+    PushButton(PushButton::BTN3_PIN),
+    PushButton(PushButton::BTN4_PIN)
 };
 
-Led leds[number_of_leds] = {
-    Led(LED0_PIN),
-    Led(LED1_PIN),
-    Led(LED2_PIN),
-    Led(LED3_PIN)
+Led leds[Led::number_of_leds] = {
+    Led(Led::LED0_PIN),
+    Led(Led::LED1_PIN),
+    Led(Led::LED2_PIN),
+    Led(Led::LED3_PIN)
 };
 
 bool repeating_timer_callback(struct repeating_timer *t) {
-    db_counter++;
-    return db_counter;
+    PushButton::db_counter++;
+    return PushButton::db_counter;
 }
 
 void button_callback(uint gpio, uint32_t events) {
-    if (db_counter >= bounce_time) {
-        if (gpio < BTN4_PIN) {
-            leds[gpio-BTN0_PIN].toggle_led();
-            map_btn_to_led(gpio-BTN0_PIN);
-            guessing_pattern();
+    if (PushButton::db_counter >= PushButton::DEBOUNCE_TIME) {
+        if (gpio < PushButton::BTN4_PIN) {
+            leds[gpio-PushButton::BTN0_PIN].toggle_led();
+            game.map_btn_to_led(gpio-PushButton::BTN0_PIN);
+            game.guessing_pattern();
         } 
-        else if (get_game_over()) {
-            reset_game();
+        else if (game.get_game_over()) {
+            game.reset_game();
         }
-        db_counter = 0;
+        PushButton::db_counter = 0;
     } 
 }
 
@@ -72,10 +74,11 @@ int main() {
     multicore_launch_core1(core1_entry);
     sleep_ms(1000);
 
+    // super loop
     while (true) {
-        if(!get_game_over()) {
-            if(get_is_playing_led()) {
-                play_led_pattern(leds);
+        if(!game.get_game_over()) {
+            if(game.get_is_playing_led()) {
+                game.play_led_pattern(leds);
             }
         } 
         tight_loop_contents();

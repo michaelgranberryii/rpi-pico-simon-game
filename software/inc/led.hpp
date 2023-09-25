@@ -1,6 +1,6 @@
 /** 
  * @file led.hpp
- * @brief Provides fuctions that initialize leds and turns them on/off.
+ * @brief Provides fuctions that control LEDs.
  * @author Michael Granberry
 */
 
@@ -11,10 +11,12 @@
 #include "pico/multicore.h"
 
 class Led {
-    private:
-        const uint8_t LED_PIN;
-    
     public:
+        static const uint8_t number_of_leds = 4;
+        static const uint8_t LED3_PIN = 15;
+        static const uint8_t LED2_PIN = 14;
+        static const uint8_t LED1_PIN = 13;
+        static const uint8_t LED0_PIN = 12;
         /**
          * @brief Constructor for LED
          * @param led_pin selects a GPIO pin for LED
@@ -34,7 +36,9 @@ class Led {
         void toggle_led();
 
         uint8_t get_pin();
-
+    private:
+        const uint8_t LED_PIN;
+        const uint16_t LED_SLEEP_TIME_mSec = 300;
        
 };
 #endif

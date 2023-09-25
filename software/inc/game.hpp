@@ -1,3 +1,9 @@
+/**
+ * @file game.hpp
+ * @brief Provides fuctions for handling general game logic.
+ * @author Michael Granberry
+*/
+
 #ifndef GAME_HPP
 #define GAME_HPP
 
@@ -8,35 +14,113 @@
 #include "inc/led.hpp"
 #include "inc/push_button.hpp"
 
-const uint8_t number_of_buttons = 5;
-const uint8_t BTN0_PIN = 16;
-const uint8_t BTN1_PIN = 17;
-const uint8_t BTN2_PIN = 18;
-const uint8_t BTN3_PIN = 19;
-const uint8_t BTN4_PIN = 20;
+class Game {
+    public:
 
-const uint8_t number_of_leds = 4;
-const uint8_t LED3_PIN = 15;
-const uint8_t LED2_PIN = 14;
-const uint8_t LED1_PIN = 13;
-const uint8_t LED0_PIN = 12;
+        /**
+         * @brief Constructor
+        */
+        Game();
+        
+        /**
+         * @brief Generate a random number
+        */
+        int rand_gen();
 
-const uint16_t bounce_time = 150;
+        /**
+         * @brief Reset the game
+        */
+        void reset_game();
 
-int rand_gen();
-void reset_game();
-void gameover();
-void play_led_pattern(Led *leds);
-void guessing_pattern();
-bool set_game_over(bool gameover);
-bool get_game_over();
-void toggle_is_playing_led();
-bool get_is_playing_led();
-bool toggle_is_guessing();
-bool get_is_guessing();
-void map_btn_to_led(uint8_t led);
-void button_pressed(uint8_t btn_pressed);
-void print_score_board();
-bool compare_sore(int *arr, int size, int score);
-void insertionSort(int *arr, int size);
+        /**
+         * @brief Checks if score is a high score. Print score board. Prints game over text
+        */
+        void gameover();
+
+        /**
+         * @brief 
+         * @param leds 
+        */
+        void play_led_pattern(Led *leds);
+
+        /**
+         * @brief
+        */
+        void guessing_pattern();
+
+        /**
+         * @brief
+         * @param gameover
+        */
+        bool set_game_over(bool gameover);
+
+        /**
+         * @brief
+        */
+        bool get_game_over();
+
+        /**
+         * @brief
+        */
+        void toggle_is_playing_led();
+
+        /**
+         * @brief
+        */
+        bool get_is_playing_led();
+
+        /**
+         * @brief
+        */
+        bool toggle_is_guessing();
+
+        /**
+         * @brief
+        */
+        bool get_is_guessing();
+
+        /**
+         * @brief
+         * @param led
+        */
+        void map_btn_to_led(uint8_t led);
+
+        /**
+         * @brief
+         * @param 
+        */
+        void button_pressed(uint8_t btn_pressed);
+
+        /**
+         * @brief
+        */
+        void print_score_board();
+
+        /**
+         * @brief
+         * @param
+         * @param
+         * @param
+        */
+        bool compare_sore(int *arr, int size, int score);
+
+        /**
+         * @brief
+         * @param
+         * @param
+        */
+        void insertionSort(int *arr, int size);
+
+        
+    private:
+        bool game_over;
+        bool is_playing_led;
+        bool is_guessing;
+        uint8_t button_value;
+        std::vector<int> pattern;
+        int pattern_index;
+        int high_scores[5];
+};
+
+
 #endif
