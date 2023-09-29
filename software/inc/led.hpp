@@ -33,8 +33,14 @@ class Led {
         */
         void turn_off_led();
 
+        /**
+         * @brief Toggles LEDs
+        */
         void toggle_led();
 
+        /**
+         * @brief Gets the gpio number
+        */
         uint8_t get_pin();
     private:
         const uint8_t LED_PIN;

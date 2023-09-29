@@ -17,14 +17,10 @@ Game::Game() {
 int Game::rand_gen() {
 	// Providing a seed value
 	srand((unsigned) time(NULL));
+    int offset = 12;
+    int random = offset + (rand() % 4);
 
-	// Loop to get 5 random numbers
-    // Retrieve a random number between 100 and 200
-    // Offset = 100
-    // Range = 101
-    int random = 12 + (rand() % 4);
-
-    // Print the random number
+    // return the random number
     return random;
 	
 }
@@ -147,14 +143,21 @@ void Game::print_score_board() {
 }
 
 bool Game::compare_sore(int *arr, int size, int score) {
+    bool flag = false;
+    int min_index = 0; 
     for (int i = 0; i < size; i++)
     {
         if (arr[i] < score) {
-            arr[i] = score;
-            return true;
+            min_index = i;
+            flag = true;
         }
     }
-    return false;
+    if(flag) {
+        arr[min_index] = score;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // Descending Order

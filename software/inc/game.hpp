@@ -38,76 +38,76 @@ class Game {
         void gameover();
 
         /**
-         * @brief 
-         * @param leds 
+         * @brief Plays the random pattern on LEDs
+         * @param leds An array of Led ojects
         */
         void play_led_pattern(Led *leds);
 
         /**
-         * @brief
+         * @brief Compares button presses to pattern
         */
         void guessing_pattern();
 
         /**
-         * @brief
-         * @param gameover
+         * @brief Set the gameoover bool if user loses
+         * @param gameover boolean
         */
         bool set_game_over(bool gameover);
 
         /**
-         * @brief
+         * @brief Gets the value of gameover
         */
         bool get_game_over();
 
         /**
-         * @brief
+         * @brief Toggles is_playing_led boolean
         */
         void toggle_is_playing_led();
 
         /**
-         * @brief
+         * @brief Gets value of is_playing_led
         */
         bool get_is_playing_led();
 
         /**
-         * @brief
+         * @brief Toggles is_guessing boolean
         */
         bool toggle_is_guessing();
 
         /**
-         * @brief
+         * @brief Gets the value of is_guessing
         */
         bool get_is_guessing();
 
         /**
-         * @brief
-         * @param led
+         * @brief Maps a button press to it's corresponding LED
+         * @param btn_to_led Index value
         */
-        void map_btn_to_led(uint8_t led);
+        void map_btn_to_led(uint8_t btn_to_led);
 
         /**
-         * @brief
-         * @param 
+         * @brief Sets the LED gpio value to button_value
+         * @param btn_pressed Set's the value of button_value
         */
         void button_pressed(uint8_t btn_pressed);
 
         /**
-         * @brief
+         * @brief Prints score baord
         */
         void print_score_board();
 
         /**
-         * @brief
-         * @param
-         * @param
-         * @param
+         * @brief Compares new score with current high scores
+         * @param arr array of high scores
+         * @param size size of high score array
+         * @param score current score
         */
         bool compare_sore(int *arr, int size, int score);
 
         /**
-         * @brief
-         * @param
-         * @param
+         * @brief Sorts high score array
+         * @param arr high score array
+         * @param size size of high score array
         */
         void insertionSort(int *arr, int size);
 

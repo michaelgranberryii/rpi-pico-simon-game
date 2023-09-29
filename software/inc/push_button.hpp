@@ -19,7 +19,6 @@ class PushButton {
         static const uint8_t BTN3_PIN = 19;
         static const uint8_t BTN4_PIN = 20;
         static const uint16_t DEBOUNCE_TIME = 150;
-
         static uint db_counter;
 
         /**

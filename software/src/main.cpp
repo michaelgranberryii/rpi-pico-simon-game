@@ -14,6 +14,7 @@ Game game; // Global object. Is this bad?
 
 uint PushButton::db_counter = 0;
 
+// btn array
 PushButton btns[PushButton::number_of_buttons] = {
     PushButton(PushButton::BTN0_PIN),
     PushButton(PushButton::BTN1_PIN),
@@ -22,6 +23,7 @@ PushButton btns[PushButton::number_of_buttons] = {
     PushButton(PushButton::BTN4_PIN)
 };
 
+// led array
 Led leds[Led::number_of_leds] = {
     Led(Led::LED0_PIN),
     Led(Led::LED1_PIN),
@@ -29,17 +31,22 @@ Led leds[Led::number_of_leds] = {
     Led(Led::LED3_PIN)
 };
 
+// timer callback function.
+// used for btn debouncing
 bool repeating_timer_callback(struct repeating_timer *t) {
     PushButton::db_counter++;
     return PushButton::db_counter;
 }
 
+// btn callback function.
 void button_callback(uint gpio, uint32_t events) {
     if (PushButton::db_counter >= PushButton::DEBOUNCE_TIME) {
         if (gpio < PushButton::BTN4_PIN) {
-            leds[gpio-PushButton::BTN0_PIN].toggle_led();
-            game.map_btn_to_led(gpio-PushButton::BTN0_PIN);
-            game.guessing_pattern();
+            if(!game.get_game_over()) {
+                leds[gpio-PushButton::BTN0_PIN].toggle_led();
+                game.map_btn_to_led(gpio-PushButton::BTN0_PIN);
+                game.guessing_pattern();
+            }
         } 
         else if (game.get_game_over()) {
             game.reset_game();
